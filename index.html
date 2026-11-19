@@ -68,11 +68,9 @@
       cursor: pointer;
       border: none;
     }
-    /* Logo gradient (fallback) */
     .logo-gradient {
       background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 50%, #f43f5e 100%);
     }
-    /* Mobile menu */
     #mobile-menu {
       max-height: 0;
       overflow: hidden;
@@ -81,7 +79,6 @@
     #mobile-menu.open {
       max-height: 320px;
     }
-    /* Better touch targets on mobile */
     @media (max-width: 640px) {
       #play-btn {
         min-height: 52px;
@@ -92,7 +89,6 @@
         min-height: 40px;
       }
     }
-    /* Safe area for notched phones */
     body {
       padding-left: env(safe-area-inset-left);
       padding-right: env(safe-area-inset-right);
@@ -129,7 +125,6 @@
       </nav>
 
       <div class="flex items-center gap-1.5 sm:gap-2">
-        <!-- Social icons (visible on mobile too) -->
         <a id="link-instagram" href="https://instagram.com/radiowebconexao" target="_blank" rel="noopener noreferrer"
            class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800/90 text-slate-300 hover:bg-gradient-to-br hover:from-pink-500 hover:to-orange-400 hover:text-white transition-all"
            title="Instagram" aria-label="Instagram da Rádio Web Conexão">
@@ -142,8 +137,8 @@
         </a>
 
         <span id="nav-status-badge" class="hidden xs:inline-flex sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold text-emerald-300 ring-1 ring-emerald-500/30">
-          <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="nav-status-text">No Ar</span>
+          <span id="nav-status-dot" class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="nav-status-text">AutoDJ 24h</span>
         </span>
 
         <button id="share-btn" type="button"
@@ -153,7 +148,6 @@
           <span class="hidden sm:inline">Compartilhar</span>
         </button>
 
-        <!-- Mobile menu button -->
         <button id="mobile-menu-btn" type="button"
           class="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800/90 text-slate-200 hover:bg-slate-700 transition-colors"
           aria-label="Abrir menu" aria-expanded="false">
@@ -182,6 +176,7 @@
           <div id="artwork-ring" class="hidden absolute -inset-2 rounded-3xl border-2 border-sky-400/50 pulse-ring"></div>
           <div class="relative aspect-square w-full overflow-hidden rounded-2xl shadow-xl ring-1 ring-white/10">
             <img
+              id="player-artwork"
               src="Radio_web.png"
               alt="Capa Rádio Web Conexão"
               class="h-full w-full object-cover"
@@ -199,11 +194,16 @@
         <!-- Controls & Info -->
         <div class="space-y-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-wider text-sky-400">Tocando Agora</p>
-              <h1 id="now-show-title" class="mt-1 text-2xl sm:text-3xl font-extrabold text-white">Manhã Conexão</h1>
+            <div class="min-w-0">
+              <div class="flex items-center gap-2.5">
+                <p class="text-xs font-semibold uppercase tracking-wider text-sky-400">Tocando Agora</p>
+                <span id="listeners-pill" class="hidden rounded-full bg-slate-800/90 px-2.5 py-0.5 text-[11px] font-medium text-slate-300 ring-1 ring-slate-700">
+                  0 ouvintes
+                </span>
+              </div>
+              <h1 id="now-show-title" class="mt-1 text-2xl sm:text-3xl font-extrabold text-white truncate">Rádio Web Conexão</h1>
               <p id="now-show-desc" class="mt-1 text-sm text-slate-300">
-                Seleção musical variada com destaques do dia e boas vibrações.
+                Conectando ao servidor de transmissão…
               </p>
             </div>
             <button id="toggle-live-mode-btn" type="button"
@@ -215,9 +215,9 @@
           <!-- Audio Equalizer Visualizer -->
           <div class="rounded-2xl bg-slate-950/70 p-3.5 ring-1 ring-slate-800/80">
             <canvas id="visualizer-canvas" class="h-14 w-full block rounded-lg" aria-hidden="true"></canvas>
-            <div class="mt-2 flex items-center justify-between text-xs text-slate-400">
-              <span id="stream-source-label">Fonte: Áudio de demonstração integrado</span>
-              <span id="player-state-label">Pronto para tocar</span>
+            <div class="mt-2 flex items-center justify-between text-xs text-slate-400 gap-2">
+              <span id="stream-source-label" class="truncate">Stream: AzuraCast Ao Vivo</span>
+              <span id="player-state-label" class="shrink-0">Pronto para tocar</span>
             </div>
           </div>
 
@@ -240,7 +240,7 @@
           </div>
         </div>
       </div>
-      <audio id="radio-audio" crossorigin="anonymous" preload="none"></audio>
+      <audio id="radio-audio" preload="none"></audio>
     </section>
 
     <!-- Weekly Schedule -->
@@ -289,7 +289,6 @@
               Enviar no Mural
             </button>
 
-            <!-- WhatsApp button -->
             <button type="button" id="whatsapp-request-btn"
               class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500 transition-colors">
               <i data-lucide="message-circle" class="h-4 w-4"></i>
@@ -313,7 +312,7 @@
         <div>
           <h2 class="text-xl font-bold text-white">Conectar Seu Servidor de Streaming</h2>
           <p class="text-sm text-slate-400">
-            Cole a URL HTTPS do seu stream (AzuraCast, Icecast ou Zeno.FM) para o player tocar sua transmissão real.
+            Stream padrão já conectado ao AzuraCast da Rádio Web Conexão. Você pode testar outro endereço abaixo se precisar.
           </p>
         </div>
 
@@ -321,7 +320,7 @@
           <div>
             <label for="stream-url-input" class="block text-xs font-semibold text-slate-300 mb-1.5">URL do Stream (HTTPS)</label>
             <input id="stream-url-input" type="url"
-              placeholder="https://seu-servidor.com/listen/conexao/radio.mp3"
+              placeholder="https://stream.radio-web-conexao.com/listen/radio-web-conexao/radio.mp3"
               class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
           </div>
 
@@ -330,6 +329,10 @@
               class="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2.5 text-sm font-semibold text-slate-950 hover:bg-sky-400 transition-colors">
               <i data-lucide="radio" class="h-4 w-4"></i>
               Salvar e Usar Stream
+            </button>
+            <button id="reset-default-btn" type="button"
+              class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-colors">
+              Restaurar AzuraCast Padrão
             </button>
             <button id="reset-demo-btn" type="button"
               class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-colors">
@@ -368,9 +371,9 @@
         </div>
 
         <div class="rounded-2xl bg-slate-900/75 p-4 text-xs text-slate-300 space-y-2 ring-1 ring-slate-800">
-          <p class="font-semibold text-sky-300">Dica para testar antes de publicar:</p>
+          <p class="font-semibold text-sky-300">Conexão AzuraCast ativa:</p>
           <p>
-            Enquanto você configura o AzuraCast ou Zeno.FM, o botão <strong>Ouvir Ao Vivo</strong> já funciona com um áudio de estúdio sintetizado no navegador.
+            O player e o <strong>Tocando Agora</strong> estão integrados diretamente ao seu servidor AzuraCast em <code>stream.radio-web-conexao.com</code>.
           </p>
         </div>
       </div>
@@ -405,8 +408,10 @@
   <div id="toast" class="pointer-events-none fixed bottom-5 right-5 z-50 hidden rounded-xl bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-2xl ring-1 ring-sky-500/40" role="status" aria-live="polite"></div>
 
   <script>
-    // ========== CONFIGURAÇÃO FÁCIL (edite aqui se preferir) ==========
+    // ========== CONFIGURAÇÃO DA RÁDIO ==========
     const DEFAULT_CONFIG = {
+      streamUrl: "https://stream.radio-web-conexao.com/listen/radio-web-conexao/radio.mp3",
+      nowPlayingApiUrl: "https://stream.radio-web-conexao.com/api/nowplaying/radio-web-conexao",
       instagram: "https://instagram.com/radiowebconexao",
       facebook: "https://facebook.com/radiowebconexao",
       whatsapp: "" // ex: "5511999998888"  (DDI + DDD + número, só números)
@@ -430,19 +435,28 @@
       isMuted: false,
       volume: 0.75,
       liveMode: false,
-      streamUrl: "",
+      streamUrl: DEFAULT_CONFIG.streamUrl,
       selectedDay: DAYS[new Date().getDay()],
       selectedCategory: "Todos",
       favorites: [],
       requests: [],
-      social: { ...DEFAULT_CONFIG }
+      social: { ...DEFAULT_CONFIG },
+      nowPlayingOnline: null,
+      manualModeOverride: false
     };
 
     // ---------- Persistência segura ----------
     function loadPrefs() {
       try {
+        const savedMode = localStorage.getItem("rwc_stream_mode");
         const savedUrl = localStorage.getItem("rwc_stream_url");
-        if (savedUrl) state.streamUrl = savedUrl;
+        if (savedMode === "demo") {
+          state.streamUrl = "";
+        } else if (savedUrl && savedUrl.startsWith("https://")) {
+          state.streamUrl = savedUrl;
+        } else {
+          state.streamUrl = DEFAULT_CONFIG.streamUrl;
+        }
 
         const savedFavs = localStorage.getItem("rwc_favorites");
         if (savedFavs) state.favorites = JSON.parse(savedFavs);
@@ -494,13 +508,77 @@
       const waLink = wa ? `https://wa.me/${wa}` : "#";
       setHref("footer-whatsapp", waLink);
 
-      // Preenche os campos de configuração
       const cfgIg = document.getElementById("cfg-instagram");
       const cfgFb = document.getElementById("cfg-facebook");
       const cfgWa = document.getElementById("cfg-whatsapp");
       if (cfgIg) cfgIg.value = ig;
       if (cfgFb) cfgFb.value = fb;
       if (cfgWa) cfgWa.value = wa;
+    }
+
+    // ---------- AzuraCast Now Playing API ----------
+    async function fetchNowPlaying() {
+      try {
+        const res = await fetch(DEFAULT_CONFIG.nowPlayingApiUrl, { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+
+        const titleEl = document.getElementById("now-show-title");
+        const descEl = document.getElementById("now-show-desc");
+        const artEl = document.getElementById("player-artwork");
+        const listenersEl = document.getElementById("listeners-pill");
+        const navBadge = document.getElementById("nav-status-badge");
+        const navDot = document.getElementById("nav-status-dot");
+
+        const isOnline = Boolean(data.is_online);
+        const isLive = Boolean(data.live && data.live.is_live);
+        const streamerName = data.live && data.live.streamer_name ? data.live.streamer_name : "";
+        const song = data.now_playing && data.now_playing.song ? data.now_playing.song : null;
+        const listeners = data.listeners && typeof data.listeners.current === "number" ? data.listeners.current : 0;
+
+        state.nowPlayingOnline = isOnline;
+        if (!state.manualModeOverride) {
+          state.liveMode = isLive;
+        }
+
+        if (isOnline && song && song.title && song.title !== "Station Offline") {
+          titleEl.textContent = song.title;
+          const artistText = song.artist ? song.artist : "Rádio Web Conexão";
+          const extra = isLive && streamerName ? ` • Ao vivo com ${streamerName}` : "";
+          descEl.textContent = `${artistText}${extra}`;
+
+          if (song.art && !song.art.includes("generic_song")) {
+            artEl.src = song.art;
+          } else {
+            artEl.src = "Radio_web.png";
+          }
+        } else {
+          titleEl.textContent = "Rádio Web Conexão";
+          descEl.textContent = isOnline
+            ? "Transmissão ao vivo ativa 24 horas."
+            : "Estação aguardando transmissão no servidor AzuraCast.";
+          artEl.src = "Radio_web.png";
+        }
+
+        if (listenersEl) {
+          listenersEl.textContent = `${listeners} ${listeners === 1 ? "ouvinte" : "ouvintes"}`;
+          listenersEl.classList.remove("hidden");
+        }
+
+        if (navBadge && navDot) {
+          if (isOnline) {
+            navBadge.className = "hidden xs:inline-flex sm:inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold text-emerald-300 ring-1 ring-emerald-500/30";
+            navDot.className = "h-2 w-2 rounded-full bg-emerald-400 animate-pulse";
+          } else {
+            navBadge.className = "hidden xs:inline-flex sm:inline-flex items-center gap-1.5 rounded-full bg-amber-500/15 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold text-amber-300 ring-1 ring-amber-500/30";
+            navDot.className = "h-2 w-2 rounded-full bg-amber-400";
+          }
+        }
+
+        updatePlayerUI();
+      } catch (err) {
+        console.warn("Não foi possível atualizar Now Playing:", err);
+      }
     }
 
     // ---------- Demo Audio (Web Audio API) ----------
@@ -580,20 +658,25 @@
         playIcon.setAttribute("data-lucide", "pause");
         playText.textContent = "Pausar Rádio";
         artworkRing.classList.remove("hidden");
-        stateLabel.textContent = state.streamUrl ? "Transmitindo stream ao vivo" : "Tocando áudio de demonstração";
+        stateLabel.textContent = state.streamUrl ? "Transmitindo ao vivo" : "Tocando áudio de demonstração";
       } else {
         playIcon.setAttribute("data-lucide", "play");
         playText.textContent = "Ouvir Ao Vivo";
         artworkRing.classList.add("hidden");
-        stateLabel.textContent = "Pausado";
+        stateLabel.textContent = "Pronto para tocar";
       }
 
       sourceLabel.textContent = state.streamUrl
-        ? `Stream: ${state.streamUrl.length > 45 ? state.streamUrl.slice(0, 42) + "…" : state.streamUrl}`
+        ? `Stream: ${state.streamUrl.length > 48 ? state.streamUrl.slice(0, 45) + "…" : state.streamUrl}`
         : "Fonte: Áudio de demonstração integrado";
 
-      modePill.textContent = state.liveMode ? "Locução Ao Vivo" : "AutoDJ 24h";
-      navStatusText.textContent = state.liveMode ? "Ao Vivo" : "AutoDJ 24h";
+      if (state.nowPlayingOnline === false && !state.manualModeOverride) {
+        modePill.textContent = "Offline";
+        navStatusText.textContent = "Offline";
+      } else {
+        modePill.textContent = state.liveMode ? "Locução Ao Vivo" : "AutoDJ 24h";
+        navStatusText.textContent = state.liveMode ? "Ao Vivo" : "AutoDJ 24h";
+      }
 
       const volIcon = document.getElementById("volume-icon");
       volIcon.setAttribute("data-lucide", state.isMuted || state.volume === 0 ? "volume-x" : "volume-2");
@@ -609,6 +692,7 @@
         state.isPlaying = false;
         audioEl.pause();
         audioEl.removeAttribute("src");
+        audioEl.load();
         stopDemoAudio();
         updatePlayerUI();
         return;
@@ -617,13 +701,14 @@
       state.isPlaying = true;
       if (state.streamUrl) {
         stopDemoAudio();
-        audioEl.src = state.streamUrl;
+        const sep = state.streamUrl.includes("?") ? "&" : "?";
+        audioEl.src = `${state.streamUrl}${sep}_=${Date.now()}`;
         audioEl.volume = state.isMuted ? 0 : state.volume;
         try {
           await audioEl.play();
         } catch (err) {
           state.isPlaying = false;
-          showToast("Não foi possível abrir a URL do stream. Verifique se é HTTPS e está ativa.");
+          showToast("Não foi possível abrir o stream agora. Verifique se o AutoDJ e o Icecast estão ligados.");
           console.error(err);
         }
       } else {
@@ -830,16 +915,8 @@
     });
 
     document.getElementById("toggle-live-mode-btn").addEventListener("click", () => {
+      state.manualModeOverride = true;
       state.liveMode = !state.liveMode;
-      const titleEl = document.getElementById("now-show-title");
-      const descEl = document.getElementById("now-show-desc");
-      if (state.liveMode) {
-        titleEl.textContent = "Papo Aberto (Estúdio Ao Vivo)";
-        descEl.textContent = "Locução em tempo real com participação dos ouvintes da Rádio Web Conexão.";
-      } else {
-        titleEl.textContent = "Manhã Conexão";
-        descEl.textContent = "Seleção musical variada com destaques do dia e boas vibrações.";
-      }
       updatePlayerUI();
       showToast(state.liveMode ? "Modo alterado para Locução Ao Vivo." : "Modo alterado para AutoDJ 24h.");
     });
@@ -886,6 +963,7 @@
       }
       state.streamUrl = url;
       try {
+        localStorage.setItem("rwc_stream_mode", "custom");
         localStorage.setItem("rwc_stream_url", url);
       } catch (err) {}
       if (state.isPlaying) {
@@ -896,10 +974,26 @@
       showToast("URL do stream salva! Clique em Ouvir Ao Vivo para testar.");
     });
 
+    document.getElementById("reset-default-btn").addEventListener("click", () => {
+      state.streamUrl = DEFAULT_CONFIG.streamUrl;
+      document.getElementById("stream-url-input").value = DEFAULT_CONFIG.streamUrl;
+      try {
+        localStorage.removeItem("rwc_stream_mode");
+        localStorage.removeItem("rwc_stream_url");
+      } catch (err) {}
+      if (state.isPlaying) {
+        togglePlayback().then(() => togglePlayback());
+      } else {
+        updatePlayerUI();
+      }
+      showToast("Stream padrão do AzuraCast restaurado!");
+    });
+
     document.getElementById("reset-demo-btn").addEventListener("click", () => {
       state.streamUrl = "";
       document.getElementById("stream-url-input").value = "";
       try {
+        localStorage.setItem("rwc_stream_mode", "demo");
         localStorage.removeItem("rwc_stream_url");
       } catch (err) {}
       if (state.isPlaying) {
@@ -956,9 +1050,7 @@
           ta.remove();
           showToast("Link copiado!");
         }
-      } catch (err) {
-        // usuário cancelou o share nativo
-      }
+      } catch (err) {}
     });
 
     // ---------- Mobile menu ----------
@@ -986,17 +1078,16 @@
 
     // ---------- Init ----------
     loadPrefs();
-    if (state.streamUrl) {
-      document.getElementById("stream-url-input").value = state.streamUrl;
-    }
+    document.getElementById("stream-url-input").value = state.streamUrl;
     applySocialLinks();
     renderDayTabs();
     renderSchedule();
     renderRequests();
     updatePlayerUI();
+    fetchNowPlaying();
+    setInterval(fetchNowPlaying, 15000);
     requestAnimationFrame(drawVisualizer);
 
-    // Ícones iniciais
     if (window.lucide) lucide.createIcons();
   </script>
 </body>
