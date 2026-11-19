@@ -251,42 +251,67 @@
       <div id="schedule-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
     </section>
 
-    <!-- Song Request & Mural -->
-    <section id="pedidos" class="glass-card rounded-3xl p-6 sm:p-8 space-y-5">
-      <div>
-        <h2 class="text-xl font-bold text-white">Peça sua Música ou Mande um Alô</h2>
-        <p class="text-sm text-slate-400">Participe da programação da Rádio Web Conexão.</p>
+    <!-- Song Requests (AzuraCast) & Mural -->
+    <section id="pedidos" class="grid gap-6 lg:grid-cols-2">
+      <!-- AzuraCast Direct Song Requests -->
+      <div class="glass-card rounded-3xl p-6 space-y-4">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h2 class="text-xl font-bold text-white">Pedir Música no AutoDJ</h2>
+            <p class="text-sm text-slate-400">Escolha uma música do acervo para entrar na fila do AzuraCast.</p>
+          </div>
+          <button id="refresh-requests-btn" type="button"
+            class="shrink-0 inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/90 px-3 py-2 text-xs font-semibold text-slate-300 hover:text-white hover:border-sky-500/50 transition-colors">
+            <i data-lucide="refresh-cw" class="h-3.5 w-3.5"></i>
+            Atualizar
+          </button>
+        </div>
+
+        <input id="azura-req-search" type="search" placeholder="Buscar música ou artista…"
+          class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
+
+        <div id="azura-req-list" class="space-y-2.5 max-h-80 overflow-y-auto pr-1">
+          <p class="text-xs text-slate-400">Carregando músicas disponíveis para pedido…</p>
+        </div>
       </div>
 
-      <form id="request-form" class="space-y-3.5">
-        <div class="grid gap-3 sm:grid-cols-2">
-          <input id="req-name" type="text" required placeholder="Seu nome"
-            class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
-          <input id="req-city" type="text" placeholder="Sua cidade (opcional)"
-            class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
+      <!-- Listener Mural -->
+      <div class="glass-card rounded-3xl p-6 space-y-5">
+        <div>
+          <h2 class="text-xl font-bold text-white">Mande um Alô no Mural</h2>
+          <p class="text-sm text-slate-400">Deixe seu recado ou sugestão de assunto.</p>
         </div>
-        <textarea id="req-message" rows="3" required
-          placeholder="Qual música você quer ouvir ou qual assunto quer ver no Papo Aberto?"
-          class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none"></textarea>
 
-        <div class="flex flex-wrap gap-3">
-          <button type="submit"
-            class="inline-flex items-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-400 transition-colors">
-            <i data-lucide="send" class="h-4 w-4"></i>
-            Enviar no Mural
-          </button>
+        <form id="request-form" class="space-y-3.5">
+          <div class="grid gap-3 sm:grid-cols-2">
+            <input id="req-name" type="text" required placeholder="Seu nome"
+              class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
+            <input id="req-city" type="text" placeholder="Sua cidade (opcional)"
+              class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
+          </div>
+          <textarea id="req-message" rows="3" required
+            placeholder="Deixe sua mensagem ou sugestão de tema para o Papo Aberto…"
+            class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none"></textarea>
 
-          <button type="button" id="whatsapp-request-btn"
-            class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500 transition-colors">
-            <i data-lucide="message-circle" class="h-4 w-4"></i>
-            Pedir pelo WhatsApp
-          </button>
+          <div class="flex flex-wrap gap-3">
+            <button type="submit"
+              class="inline-flex items-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-400 transition-colors">
+              <i data-lucide="send" class="h-4 w-4"></i>
+              Enviar no Mural
+            </button>
+
+            <button type="button" id="whatsapp-request-btn"
+              class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500 transition-colors">
+              <i data-lucide="message-circle" class="h-4 w-4"></i>
+              Pedir pelo WhatsApp
+            </button>
+          </div>
+        </form>
+
+        <div class="border-t border-slate-800 pt-4 space-y-3">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Mural de Participações</h3>
+          <div id="requests-list" class="space-y-2.5 max-h-56 overflow-y-auto pr-1"></div>
         </div>
-      </form>
-
-      <div class="border-t border-slate-800 pt-4 space-y-3">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Mural de Participações</h3>
-        <div id="requests-list" class="space-y-2.5 max-h-56 overflow-y-auto pr-1"></div>
       </div>
     </section>
   </main>
@@ -321,6 +346,9 @@
   <script>
     // ========== CONFIGURAÇÃO DA RÁDIO ==========
     const RADIO_CONFIG = {
+      apiBaseUrl: "https://stream.radio-web-conexao.com/api",
+      stationId: 1,
+      stationShortcode: "radio-web-conexao",
       streamUrl: "https://stream.radio-web-conexao.com/listen/radio-web-conexao/radio.mp3",
       nowPlayingApiUrl: "https://stream.radio-web-conexao.com/api/nowplaying/radio-web-conexao",
       instagram: "https://instagram.com/radiowebconexao",
@@ -350,7 +378,9 @@
       selectedCategory: "Todos",
       favorites: [],
       requests: [],
-      nowPlayingOnline: null
+      nowPlayingOnline: null,
+      azuraSongs: [],
+      azuraSearch: ""
     };
 
     // ---------- Persistência segura ----------
@@ -454,6 +484,88 @@
       } catch (err) {
         console.warn("Não foi possível atualizar Now Playing:", err);
       }
+    }
+
+    // ---------- AzuraCast Song Requests API ----------
+    async function loadAzuraRequests() {
+      const container = document.getElementById("azura-req-list");
+      try {
+        const res = await fetch(`${RADIO_CONFIG.apiBaseUrl}/station/${RADIO_CONFIG.stationId}/requests`, { cache: "no-store" });
+        if (!res.ok) {
+          let errMsg = "Pedidos de música desabilitados no AzuraCast.";
+          try {
+            const errJson = await res.json();
+            if (errJson && errJson.message) errMsg = errJson.message;
+          } catch (_) {}
+          container.innerHTML = `<p class="rounded-xl bg-amber-500/10 border border-amber-500/20 p-3 text-xs text-amber-200">${errMsg} (Ative em <strong>Editar Perfil da Estação → AutoDJ → Habilitar Pedidos de Músicas</strong>).</p>`;
+          return;
+        }
+        const songs = await res.json();
+        state.azuraSongs = Array.isArray(songs) ? songs : [];
+        renderAzuraRequests();
+      } catch (err) {
+        container.innerHTML = `<p class="text-xs text-slate-400">Não foi possível carregar a lista de músicas do AzuraCast agora.</p>`;
+      }
+    }
+
+    function renderAzuraRequests() {
+      const container = document.getElementById("azura-req-list");
+      const term = state.azuraSearch.trim().toLowerCase();
+      const filtered = state.azuraSongs.filter((item) => {
+        if (!term) return true;
+        const title = (item.song?.title || "").toLowerCase();
+        const artist = (item.song?.artist || "").toLowerCase();
+        const text = (item.song?.text || "").toLowerCase();
+        return title.includes(term) || artist.includes(term) || text.includes(term);
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-500">Nenhuma música encontrada para pedido.</p>`;
+        return;
+      }
+
+      container.innerHTML = filtered.slice(0, 50).map((item) => {
+        const title = item.song?.title || item.song?.text || "Música";
+        const artist = item.song?.artist || "Rádio Web Conexão";
+        return `
+          <div class="flex items-center justify-between gap-3 rounded-xl bg-slate-900/90 p-3 ring-1 ring-slate-800">
+            <div class="min-w-0">
+              <p class="truncate text-sm font-semibold text-white">${title}</p>
+              <p class="truncate text-xs text-slate-400">${artist}</p>
+            </div>
+            <button type="button" data-request-id="${item.request_id}"
+              class="azura-req-btn shrink-0 rounded-xl bg-sky-500 px-3.5 py-2 text-xs font-bold text-slate-950 hover:bg-sky-400 transition-colors">
+              Pedir
+            </button>
+          </div>
+        `;
+      }).join("");
+
+      container.querySelectorAll(".azura-req-btn").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const reqId = btn.dataset.requestId;
+          btn.disabled = true;
+          btn.textContent = "Enviando…";
+          try {
+            const res = await fetch(`${RADIO_CONFIG.apiBaseUrl}/station/${RADIO_CONFIG.stationId}/request/${encodeURIComponent(reqId)}`, {
+              method: "POST"
+            });
+            const data = await res.json().catch(() => ({}));
+            if (res.ok && data.success !== false) {
+              showToast(data.formatted_message || data.message || "Pedido enviado para a fila do AzuraCast!");
+              btn.textContent = "Pedido!";
+            } else {
+              showToast(data.formatted_message || data.message || "Não foi possível enviar o pedido.");
+              btn.disabled = false;
+              btn.textContent = "Pedir";
+            }
+          } catch (err) {
+            showToast("Erro de conexão ao enviar pedido para o AzuraCast.");
+            btn.disabled = false;
+            btn.textContent = "Pedir";
+          }
+        });
+      });
     }
 
     // ---------- Player UI ----------
@@ -667,7 +779,7 @@
 
       const waNumber = (RADIO_CONFIG.whatsapp || "").replace(/\D/g, "");
       if (!waNumber) {
-        showToast("WhatsApp ainda não configurado. Envie seu pedido pelo mural!");
+        showToast("WhatsApp ainda não configurado. Use a lista de Pedidos do AzuraCast ao lado!");
         return;
       }
 
@@ -699,6 +811,13 @@
       updatePlayerUI();
     });
 
+    document.getElementById("azura-req-search").addEventListener("input", (e) => {
+      state.azuraSearch = e.target.value;
+      renderAzuraRequests();
+    });
+
+    document.getElementById("refresh-requests-btn").addEventListener("click", loadAzuraRequests);
+
     document.querySelectorAll(".cat-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         state.selectedCategory = btn.dataset.cat;
@@ -727,7 +846,7 @@
       } catch (err) {}
       e.target.reset();
       renderRequests();
-      showToast("Pedido enviado para o mural da rádio!");
+      showToast("Recado publicado no mural!");
     });
 
     document.getElementById("whatsapp-request-btn").addEventListener("click", openWhatsAppRequest);
@@ -789,6 +908,7 @@
     renderRequests();
     updatePlayerUI();
     fetchNowPlaying();
+    loadAzuraRequests();
     setInterval(fetchNowPlaying, 15000);
     requestAnimationFrame(drawVisualizer);
 
