@@ -68,9 +68,6 @@
       cursor: pointer;
       border: none;
     }
-    .logo-gradient {
-      background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 50%, #f43f5e 100%);
-    }
     #mobile-menu {
       max-height: 0;
       overflow: hidden;
@@ -121,7 +118,6 @@
         <a href="#player" class="hover:text-sky-400 transition-colors">Ao Vivo</a>
         <a href="#programacao" class="hover:text-sky-400 transition-colors">Programação</a>
         <a href="#pedidos" class="hover:text-sky-400 transition-colors">Pedidos</a>
-        <a href="#configurar" class="hover:text-sky-400 transition-colors">Configurar Stream</a>
       </nav>
 
       <div class="flex items-center gap-1.5 sm:gap-2">
@@ -162,7 +158,6 @@
         <a href="#player" class="mobile-nav-link rounded-lg px-3 py-2.5 hover:bg-slate-800 hover:text-sky-400 transition-colors">Ao Vivo</a>
         <a href="#programacao" class="mobile-nav-link rounded-lg px-3 py-2.5 hover:bg-slate-800 hover:text-sky-400 transition-colors">Programação</a>
         <a href="#pedidos" class="mobile-nav-link rounded-lg px-3 py-2.5 hover:bg-slate-800 hover:text-sky-400 transition-colors">Pedidos</a>
-        <a href="#configurar" class="mobile-nav-link rounded-lg px-3 py-2.5 hover:bg-slate-800 hover:text-sky-400 transition-colors">Configurar Stream</a>
       </nav>
     </div>
   </header>
@@ -193,30 +188,24 @@
 
         <!-- Controls & Info -->
         <div class="space-y-5">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <div class="min-w-0">
-              <div class="flex items-center gap-2.5">
-                <p class="text-xs font-semibold uppercase tracking-wider text-sky-400">Tocando Agora</p>
-                <span id="listeners-pill" class="hidden rounded-full bg-slate-800/90 px-2.5 py-0.5 text-[11px] font-medium text-slate-300 ring-1 ring-slate-700">
-                  0 ouvintes
-                </span>
-              </div>
-              <h1 id="now-show-title" class="mt-1 text-2xl sm:text-3xl font-extrabold text-white truncate">Rádio Web Conexão</h1>
-              <p id="now-show-desc" class="mt-1 text-sm text-slate-300">
-                Conectando ao servidor de transmissão…
-              </p>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2.5">
+              <p class="text-xs font-semibold uppercase tracking-wider text-sky-400">Tocando Agora</p>
+              <span id="listeners-pill" class="hidden rounded-full bg-slate-800/90 px-2.5 py-0.5 text-[11px] font-medium text-slate-300 ring-1 ring-slate-700">
+                0 ouvintes
+              </span>
             </div>
-            <button id="toggle-live-mode-btn" type="button"
-              class="rounded-xl border border-slate-700 bg-slate-900/80 px-3.5 py-2 text-xs font-semibold text-slate-200 hover:border-sky-500/50 hover:text-sky-300 transition-colors">
-              Alternar: AutoDJ / Ao Vivo
-            </button>
+            <h1 id="now-show-title" class="mt-1 text-2xl sm:text-3xl font-extrabold text-white truncate">Rádio Web Conexão</h1>
+            <p id="now-show-desc" class="mt-1 text-sm text-slate-300">
+              Conectando ao servidor de transmissão…
+            </p>
           </div>
 
           <!-- Audio Equalizer Visualizer -->
           <div class="rounded-2xl bg-slate-950/70 p-3.5 ring-1 ring-slate-800/80">
             <canvas id="visualizer-canvas" class="h-14 w-full block rounded-lg" aria-hidden="true"></canvas>
             <div class="mt-2 flex items-center justify-between text-xs text-slate-400 gap-2">
-              <span id="stream-source-label" class="truncate">Stream: AzuraCast Ao Vivo</span>
+              <span class="truncate">Transmissão Digital • 192 kbps MP3</span>
               <span id="player-state-label" class="shrink-0">Pronto para tocar</span>
             </div>
           </div>
@@ -262,120 +251,42 @@
       <div id="schedule-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
     </section>
 
-    <!-- Listener Requests & Stream Config -->
-    <section class="grid gap-6 lg:grid-cols-2">
-      <!-- Song Request & Mural -->
-      <div id="pedidos" class="glass-card rounded-3xl p-6 space-y-5">
-        <div>
-          <h2 class="text-xl font-bold text-white">Peça sua Música ou Mande um Alô</h2>
-          <p class="text-sm text-slate-400">Participe da programação da Rádio Web Conexão.</p>
-        </div>
-
-        <form id="request-form" class="space-y-3.5">
-          <div class="grid gap-3 sm:grid-cols-2">
-            <input id="req-name" type="text" required placeholder="Seu nome"
-              class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
-            <input id="req-city" type="text" placeholder="Sua cidade (opcional)"
-              class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
-          </div>
-          <textarea id="req-message" rows="3" required
-            placeholder="Qual música você quer ouvir ou qual assunto quer ver no Papo Aberto?"
-            class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none"></textarea>
-
-          <div class="flex flex-wrap gap-3">
-            <button type="submit"
-              class="inline-flex items-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-400 transition-colors">
-              <i data-lucide="send" class="h-4 w-4"></i>
-              Enviar no Mural
-            </button>
-
-            <button type="button" id="whatsapp-request-btn"
-              class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500 transition-colors">
-              <i data-lucide="message-circle" class="h-4 w-4"></i>
-              Pedir pelo WhatsApp
-            </button>
-          </div>
-        </form>
-
-        <div class="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-3 text-xs text-emerald-200/90">
-          <strong class="text-emerald-300">Dica:</strong> O botão WhatsApp abre uma conversa pronta com a sua mensagem. É a forma mais rápida de o locutor receber o pedido.
-        </div>
-
-        <div class="border-t border-slate-800 pt-4 space-y-3">
-          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Mural de Participações</h3>
-          <div id="requests-list" class="space-y-2.5 max-h-56 overflow-y-auto pr-1"></div>
-        </div>
+    <!-- Song Request & Mural -->
+    <section id="pedidos" class="glass-card rounded-3xl p-6 sm:p-8 space-y-5">
+      <div>
+        <h2 class="text-xl font-bold text-white">Peça sua Música ou Mande um Alô</h2>
+        <p class="text-sm text-slate-400">Participe da programação da Rádio Web Conexão.</p>
       </div>
 
-      <!-- Stream Configuration Panel -->
-      <div id="configurar" class="glass-card rounded-3xl p-6 space-y-5">
-        <div>
-          <h2 class="text-xl font-bold text-white">Conectar Seu Servidor de Streaming</h2>
-          <p class="text-sm text-slate-400">
-            Stream padrão já conectado ao AzuraCast da Rádio Web Conexão. Você pode testar outro endereço abaixo se precisar.
-          </p>
+      <form id="request-form" class="space-y-3.5">
+        <div class="grid gap-3 sm:grid-cols-2">
+          <input id="req-name" type="text" required placeholder="Seu nome"
+            class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
+          <input id="req-city" type="text" placeholder="Sua cidade (opcional)"
+            class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
         </div>
+        <textarea id="req-message" rows="3" required
+          placeholder="Qual música você quer ouvir ou qual assunto quer ver no Papo Aberto?"
+          class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none"></textarea>
 
-        <form id="stream-config-form" class="space-y-4">
-          <div>
-            <label for="stream-url-input" class="block text-xs font-semibold text-slate-300 mb-1.5">URL do Stream (HTTPS)</label>
-            <input id="stream-url-input" type="url"
-              placeholder="https://stream.radio-web-conexao.com/listen/radio-web-conexao/radio.mp3"
-              class="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
-          </div>
+        <div class="flex flex-wrap gap-3">
+          <button type="submit"
+            class="inline-flex items-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-400 transition-colors">
+            <i data-lucide="send" class="h-4 w-4"></i>
+            Enviar no Mural
+          </button>
 
-          <div class="flex flex-wrap gap-3">
-            <button type="submit"
-              class="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2.5 text-sm font-semibold text-slate-950 hover:bg-sky-400 transition-colors">
-              <i data-lucide="radio" class="h-4 w-4"></i>
-              Salvar e Usar Stream
-            </button>
-            <button id="reset-default-btn" type="button"
-              class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-colors">
-              Restaurar AzuraCast Padrão
-            </button>
-            <button id="reset-demo-btn" type="button"
-              class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-colors">
-              Usar Áudio Demo
-            </button>
-          </div>
-        </form>
-
-        <!-- Social config (optional) -->
-        <div class="border-t border-slate-800 pt-4 space-y-3">
-          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Redes Sociais e WhatsApp</h3>
-          <p class="text-xs text-slate-500">Altere os links abaixo se quiser usar suas contas reais. Os botões do site serão atualizados automaticamente.</p>
-
-          <div class="grid gap-3">
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Instagram (URL completa)</label>
-              <input id="cfg-instagram" type="url" placeholder="https://instagram.com/seuperfil"
-                class="w-full rounded-lg border border-slate-700 bg-slate-900/90 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
-            </div>
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Facebook (URL completa)</label>
-              <input id="cfg-facebook" type="url" placeholder="https://facebook.com/seuperfil"
-                class="w-full rounded-lg border border-slate-700 bg-slate-900/90 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
-            </div>
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">WhatsApp (apenas números com DDI, ex: 5511999998888)</label>
-              <input id="cfg-whatsapp" type="text" inputmode="numeric" placeholder="5511999998888"
-                class="w-full rounded-lg border border-slate-700 bg-slate-900/90 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none" />
-            </div>
-            <button type="button" id="save-social-btn"
-              class="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-400 transition-colors">
-              <i data-lucide="save" class="h-4 w-4"></i>
-              Salvar Redes e WhatsApp
-            </button>
-          </div>
+          <button type="button" id="whatsapp-request-btn"
+            class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500 transition-colors">
+            <i data-lucide="message-circle" class="h-4 w-4"></i>
+            Pedir pelo WhatsApp
+          </button>
         </div>
+      </form>
 
-        <div class="rounded-2xl bg-slate-900/75 p-4 text-xs text-slate-300 space-y-2 ring-1 ring-slate-800">
-          <p class="font-semibold text-sky-300">Conexão AzuraCast ativa:</p>
-          <p>
-            O player e o <strong>Tocando Agora</strong> estão integrados diretamente ao seu servidor AzuraCast em <code>stream.radio-web-conexao.com</code>.
-          </p>
-        </div>
+      <div class="border-t border-slate-800 pt-4 space-y-3">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Mural de Participações</h3>
+        <div id="requests-list" class="space-y-2.5 max-h-56 overflow-y-auto pr-1"></div>
       </div>
     </section>
   </main>
@@ -409,12 +320,12 @@
 
   <script>
     // ========== CONFIGURAÇÃO DA RÁDIO ==========
-    const DEFAULT_CONFIG = {
+    const RADIO_CONFIG = {
       streamUrl: "https://stream.radio-web-conexao.com/listen/radio-web-conexao/radio.mp3",
       nowPlayingApiUrl: "https://stream.radio-web-conexao.com/api/nowplaying/radio-web-conexao",
       instagram: "https://instagram.com/radiowebconexao",
       facebook: "https://facebook.com/radiowebconexao",
-      whatsapp: "" // ex: "5511999998888"  (DDI + DDD + número, só números)
+      whatsapp: "" // ex: "5511999998888" (DDI + DDD + número, só números)
     };
 
     const DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
@@ -435,49 +346,24 @@
       isMuted: false,
       volume: 0.75,
       liveMode: false,
-      streamUrl: DEFAULT_CONFIG.streamUrl,
       selectedDay: DAYS[new Date().getDay()],
       selectedCategory: "Todos",
       favorites: [],
       requests: [],
-      social: { ...DEFAULT_CONFIG },
-      nowPlayingOnline: null,
-      manualModeOverride: false
+      nowPlayingOnline: null
     };
 
     // ---------- Persistência segura ----------
     function loadPrefs() {
       try {
-        const savedMode = localStorage.getItem("rwc_stream_mode");
-        const savedUrl = localStorage.getItem("rwc_stream_url");
-        if (savedMode === "demo") {
-          state.streamUrl = "";
-        } else if (savedUrl && savedUrl.startsWith("https://")) {
-          state.streamUrl = savedUrl;
-        } else {
-          state.streamUrl = DEFAULT_CONFIG.streamUrl;
-        }
-
         const savedFavs = localStorage.getItem("rwc_favorites");
         if (savedFavs) state.favorites = JSON.parse(savedFavs);
 
         const savedReqs = localStorage.getItem("rwc_requests");
         if (savedReqs) state.requests = JSON.parse(savedReqs);
-
-        const savedSocial = localStorage.getItem("rwc_social");
-        if (savedSocial) {
-          const parsed = JSON.parse(savedSocial);
-          state.social = { ...DEFAULT_CONFIG, ...parsed };
-        }
       } catch (e) {
         console.warn("Não foi possível carregar preferências:", e);
       }
-    }
-
-    function saveSocial() {
-      try {
-        localStorage.setItem("rwc_social", JSON.stringify(state.social));
-      } catch (e) {}
     }
 
     // ---------- Toast ----------
@@ -491,9 +377,9 @@
 
     // ---------- Social links ----------
     function applySocialLinks() {
-      const ig = state.social.instagram || DEFAULT_CONFIG.instagram;
-      const fb = state.social.facebook || DEFAULT_CONFIG.facebook;
-      const wa = (state.social.whatsapp || "").replace(/\D/g, "");
+      const ig = RADIO_CONFIG.instagram;
+      const fb = RADIO_CONFIG.facebook;
+      const wa = (RADIO_CONFIG.whatsapp || "").replace(/\D/g, "");
 
       const setHref = (id, href) => {
         const el = document.getElementById(id);
@@ -504,22 +390,13 @@
       setHref("footer-instagram", ig);
       setHref("link-facebook", fb);
       setHref("footer-facebook", fb);
-
-      const waLink = wa ? `https://wa.me/${wa}` : "#";
-      setHref("footer-whatsapp", waLink);
-
-      const cfgIg = document.getElementById("cfg-instagram");
-      const cfgFb = document.getElementById("cfg-facebook");
-      const cfgWa = document.getElementById("cfg-whatsapp");
-      if (cfgIg) cfgIg.value = ig;
-      if (cfgFb) cfgFb.value = fb;
-      if (cfgWa) cfgWa.value = wa;
+      setHref("footer-whatsapp", wa ? `https://wa.me/${wa}` : "#");
     }
 
     // ---------- AzuraCast Now Playing API ----------
     async function fetchNowPlaying() {
       try {
-        const res = await fetch(DEFAULT_CONFIG.nowPlayingApiUrl, { cache: "no-store" });
+        const res = await fetch(RADIO_CONFIG.nowPlayingApiUrl, { cache: "no-store" });
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
 
@@ -537,9 +414,7 @@
         const listeners = data.listeners && typeof data.listeners.current === "number" ? data.listeners.current : 0;
 
         state.nowPlayingOnline = isOnline;
-        if (!state.manualModeOverride) {
-          state.liveMode = isLive;
-        }
+        state.liveMode = isLive;
 
         if (isOnline && song && song.title && song.title !== "Station Offline") {
           titleEl.textContent = song.title;
@@ -556,7 +431,7 @@
           titleEl.textContent = "Rádio Web Conexão";
           descEl.textContent = isOnline
             ? "Transmissão ao vivo ativa 24 horas."
-            : "Estação aguardando transmissão no servidor AzuraCast.";
+            : "Estação aguardando transmissão.";
           artEl.src = "Radio_web.png";
         }
 
@@ -581,76 +456,12 @@
       }
     }
 
-    // ---------- Demo Audio (Web Audio API) ----------
-    let audioCtx = null;
-    let demoGain = null;
-    let demoInterval = null;
-    let analyser = null;
-    let dataArray = null;
-
-    function startDemoAudio() {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!audioCtx) audioCtx = new AudioContextClass();
-      if (audioCtx.state === "suspended") audioCtx.resume();
-
-      demoGain = audioCtx.createGain();
-      demoGain.gain.value = state.isMuted ? 0 : state.volume * 0.25;
-
-      analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 64;
-      dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-      demoGain.connect(analyser);
-      analyser.connect(audioCtx.destination);
-
-      const chords = [
-        [261.63, 329.63, 392.00, 493.88],
-        [220.00, 261.63, 329.63, 392.00],
-        [174.61, 220.00, 261.63, 349.23],
-        [196.00, 246.94, 293.66, 392.00]
-      ];
-      let step = 0;
-
-      function playChord() {
-        if (!state.isPlaying || state.streamUrl) return;
-        const now = audioCtx.currentTime;
-        const notes = chords[step % chords.length];
-        step++;
-        notes.forEach((freq) => {
-          const osc = audioCtx.createOscillator();
-          const noteGain = audioCtx.createGain();
-          osc.type = "triangle";
-          osc.frequency.setValueAtTime(freq, now);
-          noteGain.gain.setValueAtTime(0.001, now);
-          noteGain.gain.exponentialRampToValueAtTime(0.18, now + 0.35);
-          noteGain.gain.exponentialRampToValueAtTime(0.001, now + 2.3);
-          osc.connect(noteGain);
-          noteGain.connect(demoGain);
-          osc.start(now);
-          osc.stop(now + 2.4);
-        });
-      }
-
-      playChord();
-      clearInterval(demoInterval);
-      demoInterval = setInterval(playChord, 2400);
-    }
-
-    function stopDemoAudio() {
-      clearInterval(demoInterval);
-      demoInterval = null;
-      if (demoGain && audioCtx) {
-        demoGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.05);
-      }
-    }
-
     // ---------- Player UI ----------
     function updatePlayerUI() {
       const playIcon = document.getElementById("play-icon");
       const playText = document.getElementById("play-btn-text");
       const artworkRing = document.getElementById("artwork-ring");
       const stateLabel = document.getElementById("player-state-label");
-      const sourceLabel = document.getElementById("stream-source-label");
       const modePill = document.getElementById("mode-pill");
       const navStatusText = document.getElementById("nav-status-text");
 
@@ -658,7 +469,7 @@
         playIcon.setAttribute("data-lucide", "pause");
         playText.textContent = "Pausar Rádio";
         artworkRing.classList.remove("hidden");
-        stateLabel.textContent = state.streamUrl ? "Transmitindo ao vivo" : "Tocando áudio de demonstração";
+        stateLabel.textContent = "Transmitindo ao vivo";
       } else {
         playIcon.setAttribute("data-lucide", "play");
         playText.textContent = "Ouvir Ao Vivo";
@@ -666,11 +477,7 @@
         stateLabel.textContent = "Pronto para tocar";
       }
 
-      sourceLabel.textContent = state.streamUrl
-        ? `Stream: ${state.streamUrl.length > 48 ? state.streamUrl.slice(0, 45) + "…" : state.streamUrl}`
-        : "Fonte: Áudio de demonstração integrado";
-
-      if (state.nowPlayingOnline === false && !state.manualModeOverride) {
+      if (state.nowPlayingOnline === false) {
         modePill.textContent = "Offline";
         navStatusText.textContent = "Offline";
       } else {
@@ -693,26 +500,19 @@
         audioEl.pause();
         audioEl.removeAttribute("src");
         audioEl.load();
-        stopDemoAudio();
         updatePlayerUI();
         return;
       }
 
       state.isPlaying = true;
-      if (state.streamUrl) {
-        stopDemoAudio();
-        const sep = state.streamUrl.includes("?") ? "&" : "?";
-        audioEl.src = `${state.streamUrl}${sep}_=${Date.now()}`;
-        audioEl.volume = state.isMuted ? 0 : state.volume;
-        try {
-          await audioEl.play();
-        } catch (err) {
-          state.isPlaying = false;
-          showToast("Não foi possível abrir o stream agora. Verifique se o AutoDJ e o Icecast estão ligados.");
-          console.error(err);
-        }
-      } else {
-        startDemoAudio();
+      audioEl.src = `${RADIO_CONFIG.streamUrl}?_=${Date.now()}`;
+      audioEl.volume = state.isMuted ? 0 : state.volume;
+      try {
+        await audioEl.play();
+      } catch (err) {
+        state.isPlaying = false;
+        showToast("Não foi possível abrir a transmissão agora. Tente novamente em instantes.");
+        console.error(err);
       }
       updatePlayerUI();
     }
@@ -829,18 +629,10 @@
       const gap = 4;
       const barWidth = (canvas.width - gap * (bars - 1)) / bars;
 
-      if (analyser && state.isPlaying && !state.streamUrl) {
-        analyser.getByteFrequencyData(dataArray);
-      }
-
       for (let i = 0; i < bars; i++) {
         let ratio = 0.08;
         if (state.isPlaying) {
-          if (analyser && !state.streamUrl && dataArray) {
-            ratio = Math.max(0.12, dataArray[i % dataArray.length] / 255);
-          } else {
-            ratio = 0.25 + 0.65 * Math.abs(Math.sin(Date.now() * 0.005 + i * 0.45));
-          }
+          ratio = 0.25 + 0.65 * Math.abs(Math.sin(Date.now() * 0.005 + i * 0.45));
         }
         const barHeight = Math.max(4, ratio * (canvas.height - 6));
         const x = i * (barWidth + gap);
@@ -873,10 +665,9 @@
         return;
       }
 
-      const waNumber = (state.social.whatsapp || "").replace(/\D/g, "");
+      const waNumber = (RADIO_CONFIG.whatsapp || "").replace(/\D/g, "");
       if (!waNumber) {
-        showToast("Configure o número do WhatsApp na seção Configurar Stream.");
-        document.getElementById("cfg-whatsapp")?.focus();
+        showToast("WhatsApp ainda não configurado. Envie seu pedido pelo mural!");
         return;
       }
 
@@ -897,9 +688,6 @@
       state.isMuted = !state.isMuted;
       const audioEl = document.getElementById("radio-audio");
       audioEl.volume = state.isMuted ? 0 : state.volume;
-      if (demoGain && audioCtx) {
-        demoGain.gain.setTargetAtTime(state.isMuted ? 0 : state.volume * 0.25, audioCtx.currentTime, 0.05);
-      }
       updatePlayerUI();
     });
 
@@ -908,17 +696,7 @@
       if (state.volume > 0 && state.isMuted) state.isMuted = false;
       const audioEl = document.getElementById("radio-audio");
       audioEl.volume = state.isMuted ? 0 : state.volume;
-      if (demoGain && audioCtx) {
-        demoGain.gain.setTargetAtTime(state.isMuted ? 0 : state.volume * 0.25, audioCtx.currentTime, 0.05);
-      }
       updatePlayerUI();
-    });
-
-    document.getElementById("toggle-live-mode-btn").addEventListener("click", () => {
-      state.manualModeOverride = true;
-      state.liveMode = !state.liveMode;
-      updatePlayerUI();
-      showToast(state.liveMode ? "Modo alterado para Locução Ao Vivo." : "Modo alterado para AutoDJ 24h.");
     });
 
     document.querySelectorAll(".cat-btn").forEach((btn) => {
@@ -953,79 +731,6 @@
     });
 
     document.getElementById("whatsapp-request-btn").addEventListener("click", openWhatsAppRequest);
-
-    document.getElementById("stream-config-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const url = document.getElementById("stream-url-input").value.trim();
-      if (!url || !url.startsWith("https://")) {
-        showToast("Informe uma URL válida começando com https://");
-        return;
-      }
-      state.streamUrl = url;
-      try {
-        localStorage.setItem("rwc_stream_mode", "custom");
-        localStorage.setItem("rwc_stream_url", url);
-      } catch (err) {}
-      if (state.isPlaying) {
-        togglePlayback().then(() => togglePlayback());
-      } else {
-        updatePlayerUI();
-      }
-      showToast("URL do stream salva! Clique em Ouvir Ao Vivo para testar.");
-    });
-
-    document.getElementById("reset-default-btn").addEventListener("click", () => {
-      state.streamUrl = DEFAULT_CONFIG.streamUrl;
-      document.getElementById("stream-url-input").value = DEFAULT_CONFIG.streamUrl;
-      try {
-        localStorage.removeItem("rwc_stream_mode");
-        localStorage.removeItem("rwc_stream_url");
-      } catch (err) {}
-      if (state.isPlaying) {
-        togglePlayback().then(() => togglePlayback());
-      } else {
-        updatePlayerUI();
-      }
-      showToast("Stream padrão do AzuraCast restaurado!");
-    });
-
-    document.getElementById("reset-demo-btn").addEventListener("click", () => {
-      state.streamUrl = "";
-      document.getElementById("stream-url-input").value = "";
-      try {
-        localStorage.setItem("rwc_stream_mode", "demo");
-        localStorage.removeItem("rwc_stream_url");
-      } catch (err) {}
-      if (state.isPlaying) {
-        togglePlayback().then(() => togglePlayback());
-      } else {
-        updatePlayerUI();
-      }
-      showToast("Modo de áudio demonstração ativado.");
-    });
-
-    document.getElementById("save-social-btn").addEventListener("click", () => {
-      const ig = document.getElementById("cfg-instagram").value.trim();
-      const fb = document.getElementById("cfg-facebook").value.trim();
-      const wa = document.getElementById("cfg-whatsapp").value.trim().replace(/\D/g, "");
-
-      if (ig && !ig.startsWith("https://")) {
-        showToast("O link do Instagram deve começar com https://");
-        return;
-      }
-      if (fb && !fb.startsWith("https://")) {
-        showToast("O link do Facebook deve começar com https://");
-        return;
-      }
-
-      state.social.instagram = ig || DEFAULT_CONFIG.instagram;
-      state.social.facebook = fb || DEFAULT_CONFIG.facebook;
-      state.social.whatsapp = wa;
-
-      saveSocial();
-      applySocialLinks();
-      showToast("Redes sociais e WhatsApp salvos com sucesso!");
-    });
 
     document.getElementById("share-btn").addEventListener("click", async () => {
       const shareData = {
@@ -1078,7 +783,6 @@
 
     // ---------- Init ----------
     loadPrefs();
-    document.getElementById("stream-url-input").value = state.streamUrl;
     applySocialLinks();
     renderDayTabs();
     renderSchedule();
